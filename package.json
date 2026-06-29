@@ -1,0 +1,10 @@
+{
+  "name": "Zenith",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start-api": "cd apps/api && npm run start",
+    "start-web": "cd apps/web && npm run start",
+    "start-socket": "cd apps/socket && npm run start"
+  }
+}

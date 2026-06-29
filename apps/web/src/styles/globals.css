@@ -1,0 +1,163 @@
+/* ─── Base styles ────────────────────────────────────────────────── */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background: #07071A;
+  overflow: hidden;
+  min-height: 100vh;
+}
+
+::selection {
+  background: rgba(139, 92, 246, 0.35);
+  color: #F0F0FF;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(139, 92, 246, 0.25);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(139, 92, 246, 0.45);
+}
+
+:focus-visible {
+  outline: 2px solid rgba(139, 92, 246, 0.6);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ─── Utility classes ────────────────────────────────────────────── */
+
+.glass {
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+.glass-strong {
+  backdrop-filter: blur(32px) saturate(1.6);
+  -webkit-backdrop-filter: blur(32px) saturate(1.6);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.font-display {
+  font-family: 'Clash Display', 'Exo 2', sans-serif;
+}
+.font-body {
+  font-family: 'Satoshi', 'Plus Jakarta Sans', sans-serif;
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, #A78BFA 0%, #60A5FA 50%, #34D399 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.neon-purple {
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.45), 0 0 60px rgba(139, 92, 246, 0.15);
+}
+.neon-pink {
+  box-shadow: 0 0 20px rgba(236, 72, 153, 0.45), 0 0 60px rgba(236, 72, 153, 0.15);
+}
+.neon-cyan {
+  box-shadow: 0 0 20px rgba(6, 182, 212, 0.45), 0 0 60px rgba(6, 182, 212, 0.15);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #8B5CF6, #6366F1);
+  box-shadow: 0 0 28px rgba(139, 92, 246, 0.4), 0 8px 32px rgba(139, 92, 246, 0.2);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.btn-primary:hover {
+  box-shadow: 0 0 40px rgba(139, 92, 246, 0.6), 0 8px 40px rgba(139, 92, 246, 0.3);
+  transform: translateY(-1px) scale(1.01);
+}
+.btn-primary:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.scrollbar-hidden {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}
+
+/* ─── Keyframe Animations ────────────────────────────────────────── */
+
+@keyframes aurora1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(4%, 8%) scale(1.12); }
+  50% { transform: translate(-3%, 12%) scale(0.93); }
+  75% { transform: translate(7%, -4%) scale(1.08); }
+}
+@keyframes aurora2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-7%, 6%) scale(1.18); }
+  66% { transform: translate(6%, -7%) scale(0.9); }
+}
+@keyframes aurora3 {
+  0%, 100% { transform: translate(0, 0) scale(1.08); }
+  50% { transform: translate(9%, 5%) scale(0.92); }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-18px); }
+}
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes shimmer {
+  0% { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulse-ring {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+.aurora1 { animation: aurora1 16s ease-in-out infinite; }
+.aurora2 { animation: aurora2 20s ease-in-out infinite; }
+.aurora3 { animation: aurora3 13s ease-in-out infinite; }
+.float { animation: float 7s ease-in-out infinite; }
+.float2 { animation: float 9s ease-in-out infinite 2s; }
+.float3 { animation: float 6s ease-in-out infinite 1s; }
+.spin-slow { animation: spin-slow 5s linear infinite; }
+.fade-up { animation: fade-up 0.5s ease forwards; }
+.pulse-ring { animation: pulse-ring 2s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .aurora1, .aurora2, .aurora3,
+  .float, .float2, .float3,
+  .spin-slow, .fade-up, .pulse-ring {
+    animation: none !important;
+    transition: none !important;
+  }
+}

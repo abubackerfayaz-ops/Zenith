@@ -74,6 +74,9 @@ export class WafMiddleware implements NestMiddleware {
     const path = req.originalUrl || req.url;
     const method = req.method;
 
+    const skipPaths = ['/auth/login', '/auth/register', '/auth/forgot-password', '/auth/reset-password', '/auth/google', '/auth/apple'];
+    if (skipPaths.some(p => path.includes(p))) return next();
+
     const bodyStr = req.body ? stringify(req.body) : '';
     const queryStr = JSON.stringify(req.query);
     const paramsStr = JSON.stringify(req.params);

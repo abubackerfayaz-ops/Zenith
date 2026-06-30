@@ -118,10 +118,67 @@ export default function FeedView({ onViewProfile }: FeedViewProps) {
   }
 
   return (
-    <div className="h-full overflow-hidden flex font-body">
-      <div className="flex-1 overflow-y-auto scrollbar-hidden px-5 py-5">
+    <div className="h-full overflow-hidden flex flex-col font-body">
+      {/* Mobile search bar - visible on small screens only */}
+      <div className="xl:hidden px-3 sm:px-5 pt-3 pb-2 flex-shrink-0">
+        <div className="glass rounded-xl flex items-center gap-2.5 px-4 py-2.5">
+          <Search size={15} className="text-white/35 flex-shrink-0" />
+          <input
+            value={searchQuery}
+            onChange={e => handleSearch(e.target.value)}
+            placeholder="Search users..."
+            className="bg-transparent text-white text-sm flex-1 outline-none placeholder:text-white/30"
+          />
+          {searchQuery && (
+            <button onClick={() => handleSearch('')} className="flex-shrink-0">
+              <X size={14} className="text-white/35" />
+            </button>
+          )}
+        </div>
+        {/* Mobile search results dropdown */}
+        {searchQuery && (
+          <div className="glass rounded-xl mt-2 p-3 max-h-60 overflow-y-auto">
+            {searching ? (
+              <p className="text-white/30 text-xs text-center py-2">Searching...</p>
+            ) : searchResults.length === 0 ? (
+              <p className="text-white/30 text-xs text-center py-2">No users found</p>
+            ) : (
+              searchResults.map((u, i) => (
+                <motion.div
+                  key={u.id}
+                  initial={{ opacity: 0, y: -5 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.03 }}
+                  className="flex items-center gap-3 py-2 cursor-pointer hover:bg-white/[.04] rounded-lg px-2"
+                  onClick={() => { onViewProfile?.(u.username); setSearchQuery(''); }}
+                >
+                  {u.profilePicture ? (
+                    <img src={u.profilePicture} className="w-9 h-9 rounded-full object-cover flex-shrink-0" />
+                  ) : (
+                    <div className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold text-white bg-purple-500 flex-shrink-0">
+                      {(u.displayName || u.username).slice(0, 2).toUpperCase()}
+                    </div>
+                  )}
+                  <div className="flex-1 min-w-0">
+                    <div className="text-white text-sm font-medium truncate">{u.displayName || u.username}</div>
+                    <div className="text-white/35 text-xs">@{u.username}</div>
+                  </div>
+                  <button
+                    onClick={(e) => { e.stopPropagation(); handleFollow(u.id); }}
+                    className="px-3 py-1 rounded-lg text-xs font-semibold text-white bg-gradient-to-r from-purple-500 to-indigo-500 flex-shrink-0"
+                  >
+                    Follow
+                  </button>
+                </motion.div>
+              ))
+            )}
+          </div>
+        )}
+      </div>
+
+      <div className="flex-1 overflow-y-auto scrollbar-hidden px-3 sm:px-5 py-4 sm:py-5">
         {/* Stories */}
-        <div className="flex gap-3 mb-5 overflow-x-auto scrollbar-hidden pb-1">
+        <div className="flex gap-3 mb-5 overflow-x-auto scrollbar-hidden pb-1 -mx-1 px-1">
           {stories.map((s: any, i: number) => (
             <motion.div
               key={s.id}
@@ -132,15 +189,15 @@ export default function FeedView({ onViewProfile }: FeedViewProps) {
               className="flex-shrink-0 flex flex-col items-center gap-1.5 cursor-pointer"
             >
               {s.user?.profilePicture ? (
-                <div className="w-[52px] h-[52px] p-0.5 rounded-full bg-gradient-to-br from-purple-500 to-pink-500">
+                <div className="w-[56px] h-[56px] p-0.5 rounded-full bg-gradient-to-br from-purple-500 to-pink-500">
                   <img src={s.user.profilePicture} className="w-full h-full rounded-full object-cover" />
                 </div>
               ) : (
-                <div className="w-[52px] h-[52px] rounded-full flex items-center justify-center text-xs font-bold text-white bg-purple-500/50">
+                <div className="w-[56px] h-[56px] rounded-full flex items-center justify-center text-xs font-bold text-white bg-purple-500/50">
                   {(s.user?.displayName || s.user?.username || '?').slice(0, 2).toUpperCase()}
                 </div>
               )}
-              <span className="text-white/45 text-[11px] truncate w-13 text-center" style={{ maxWidth: 52 }}>
+              <span className="text-white/45 text-[11px] truncate w-14 text-center" style={{ maxWidth: 56 }}>
                 {s.user?.username || 'user'}
               </span>
             </motion.div>
@@ -151,7 +208,7 @@ export default function FeedView({ onViewProfile }: FeedViewProps) {
             transition={{ delay: 0.25 }}
             className="flex-shrink-0 flex flex-col items-center gap-1.5"
           >
-            <div className="w-[52px] h-[52px] rounded-full flex items-center justify-center bg-white/[.05] border-2 border-dashed border-white/[.18] hover:bg-white/[.08] transition-colors cursor-pointer">
+            <div className="w-[56px] h-[56px] rounded-full flex items-center justify-center bg-white/[.05] border-2 border-dashed border-white/[.18] hover:bg-white/[.08] transition-colors cursor-pointer">
               <Plus size={18} className="text-white/40" />
             </div>
             <span className="text-white/30 text-[11px]">Add</span>
@@ -159,7 +216,7 @@ export default function FeedView({ onViewProfile }: FeedViewProps) {
         </div>
 
         {/* Posts */}
-        <div className="flex flex-col gap-5 max-w-lg">
+        <div className="flex flex-col gap-4 sm:gap-5 max-w-xl mx-auto">
           {/* Create post button */}
           <button
             onClick={() => setShowCreate(true)}
@@ -328,11 +385,11 @@ export default function FeedView({ onViewProfile }: FeedViewProps) {
 
       {/* Create Post Modal */}
       {showCreate && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm" onClick={() => setShowCreate(false)}>
+        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-sm" onClick={() => setShowCreate(false)}>
           <motion.div
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            className="glass rounded-2xl p-6 w-full max-w-md mx-4"
+            initial={{ y: 50, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            className="glass rounded-t-2xl sm:rounded-2xl p-5 w-full sm:max-w-md sm:mx-4 max-h-[85vh] overflow-y-auto"
             onClick={e => e.stopPropagation()}
           >
             <div className="flex items-center justify-between mb-4">

@@ -29,7 +29,7 @@ export default function MobileNav({ current, onChange }: MobileNavProps) {
     badge: n.id === 'notifications' ? (unreadCount > 0 ? unreadCount : undefined) : n.badge,
   }));
   return (
-    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-30 flex items-center justify-around px-2 pb-2 pt-1 glass-strong border-t border-white/[.06]">
+    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-30 flex items-center justify-around px-1 pb-[env(safe-area-inset-bottom)] pt-1.5 glass-strong border-t border-white/[.06]">
       {navItems.map(({ id, icon: Icon, label, badge }) => {
         const active = current === id;
         return (
@@ -37,26 +37,19 @@ export default function MobileNav({ current, onChange }: MobileNavProps) {
             key={id}
             onClick={() => onChange(id)}
             whileTap={{ scale: 0.85 }}
-            className={`flex flex-col items-center gap-0.5 py-1 px-3 rounded-xl transition-colors relative ${
+            className={`flex flex-col items-center gap-0.5 py-1 px-3.5 rounded-xl transition-colors relative min-w-[52px] ${
               active ? 'text-white' : 'text-white/40 hover:text-white/60'
             }`}
           >
             <div className="relative">
-              <Icon size={20} />
+              <Icon size={22} strokeWidth={active ? 2.5 : 1.8} />
               {badge != null && (
-                <span className="absolute -top-1.5 -right-2 w-4 h-4 rounded-full flex items-center justify-center text-[8px] font-bold text-white bg-pink-500">
-                  {badge}
+                <span className="absolute -top-1.5 -right-2.5 w-[18px] h-[18px] rounded-full flex items-center justify-center text-[9px] font-bold text-white bg-pink-500">
+                  {badge > 99 ? '99+' : badge}
                 </span>
               )}
             </div>
-            <span className="text-[10px] font-medium">{label}</span>
-            {active && (
-              <motion.div
-                layoutId="mobileTab"
-                className="absolute -top-1 w-6 h-0.5 rounded-full bg-purple-400"
-                transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-              />
-            )}
+            <span className="text-[10px] font-semibold">{label}</span>
           </motion.button>
         );
       })}

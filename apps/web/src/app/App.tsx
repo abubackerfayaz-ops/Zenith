@@ -66,7 +66,7 @@ function MainApp() {
         <AuroraBackground />
         <div className="flex min-h-screen relative z-10">
           <Sidebar current={view} onChange={setView} />
-          <main className="flex-1 overflow-hidden h-screen pb-16 md:pb-0">
+          <main className="flex-1 overflow-hidden h-screen pb-[72px] md:pb-0 min-w-0">
             <Suspense fallback={<LoadingFallback />}>
               <AnimatePresence mode="wait">
                 {renderView()}

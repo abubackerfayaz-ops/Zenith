@@ -75,29 +75,30 @@ export default function ProfileView({ username, onViewProfile, onChangeView }: P
         )}
       </div>
 
-      <div className="px-6 lg:px-8 pb-10">
-        {/* Header row */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-end gap-5 -mt-14 mb-6">
+      <div className="px-6 lg:px-8 pb-10 relative">
+        {/* Avatar overlapping banner bottom */}
+        <div className="relative mb-4">
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ type: 'spring', stiffness: 200, damping: 15 }}
-            className="float w-[100px] h-[100px] rounded-3xl flex items-center justify-center text-3xl font-black text-white relative flex-shrink-0 bg-gradient-to-br from-purple-500 to-pink-500 font-display overflow-hidden"
+            className="float w-[100px] h-[100px] rounded-3xl flex items-center justify-center text-3xl font-black text-white bg-gradient-to-br from-purple-500 to-pink-500 font-display overflow-hidden absolute -top-14 left-0"
             style={{ boxShadow: '0 0 50px rgba(139,92,246,.55)' }}
           >
             {u.profilePicture ? (
               <img src={u.profilePicture} className="w-full h-full object-cover" />
             ) : initials}
           </motion.div>
+        </div>
 
-          <div className="flex-1">
-            <div className="flex flex-wrap items-center gap-2.5 mb-1">
-              <h1 className="text-white text-2xl font-black font-display">{u.displayName || u.username}</h1>
-              {u.isVerified && <CheckCircle size={18} className="text-cyan-400" />}
-            </div>
-            <p className="text-white/45 mb-1 text-sm">@{u.username}</p>
-            {u.bio && <p className="text-white/65 text-sm max-w-md">{u.bio}</p>}
+        {/* Info row */}
+        <div className="flex-1 mt-12">
+          <div className="flex flex-wrap items-center gap-2.5 mb-1">
+            <h1 className="text-white text-2xl font-black font-display">{u.displayName || u.username}</h1>
+            {u.isVerified && <CheckCircle size={18} className="text-cyan-400" />}
           </div>
+          <p className="text-white/45 mb-1 text-sm">@{u.username}</p>
+          {u.bio && <p className="text-white/65 text-sm max-w-md">{u.bio}</p>}
         </div>
 
         {/* Stats */}

@@ -9,7 +9,7 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
     const envUrl = process.env.DATABASE_URL || '';
     const url = envUrl.startsWith('postgresql://') || envUrl.startsWith('postgres://')
       ? envUrl
-      : 'postgresql://postgres:U46Zzl0JoE9h0FPO@db.ymjbeyzjvvogskssywsp.supabase.co:6543/postgres?pgbouncer=true';
+      : 'postgresql://postgres:U46Zzl0JoE9h0FPO@db.ymjbeyzjvvogskssywsp.supabase.co:5432/postgres?sslmode=require';
     super({
       datasources: { db: { url } },
       log: [

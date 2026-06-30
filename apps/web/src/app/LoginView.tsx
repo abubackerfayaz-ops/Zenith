@@ -237,7 +237,6 @@ export default function LoginView() {
             )}
             <div className="flex items-center gap-2 justify-center">
               <Sparkles size={12} style={{ color: '#A78BFA' }} />
-              <span className="text-white/30 text-xs">Demo accounts: admin@zenith.com / password123</span>
             </div>
           </div>
         </div>

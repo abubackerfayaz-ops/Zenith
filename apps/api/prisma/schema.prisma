@@ -42,6 +42,11 @@ model User {
   college           String?
   primaryCategory   String?
   isBanned          Boolean  @default(false)
+  zenithPoints      Int      @default(0)
+  referralCode      String?  @unique
+  referredById      String?
+  lastLoginDate     DateTime?
+  founderBadge      Boolean  @default(false)
 
   posts             Post[]
   stories           Story[]
@@ -663,4 +668,16 @@ model AdImpression {
   createdAt DateTime @default(now())
 
   ad        Ad       @relation(fields: [adId], references: [id], onDelete: Cascade)
+}
+
+model PointTransaction {
+  id        String   @id @default(cuid())
+  type      String
+  points    Int
+  reason    String
+  metadata  String?
+  createdAt DateTime @default(now())
+
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

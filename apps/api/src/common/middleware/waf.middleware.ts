@@ -124,11 +124,11 @@ export class WafMiddleware implements NestMiddleware {
 
     const contentType = req.headers['content-type'] || '';
     if (method === 'POST' || method === 'PUT' || method === 'PATCH') {
-      if (contentType.includes('application/json') && bodyStr && !bodyStr.startsWith('{') && !bodyStr.startsWith('[')) {
-        this.logger.warn(`Blocked invalid JSON body from ${ip} on ${method} ${path}`);
+      if (contentType.includes('application/json') && req.body === undefined) {
+        this.logger.warn(`Blocked request with no body from ${ip} on ${method} ${path}`);
         return res.status(400).json({
           success: false,
-          message: 'Invalid request body',
+          message: 'Request body is required',
           data: null,
           timestamp: new Date().toISOString(),
         });

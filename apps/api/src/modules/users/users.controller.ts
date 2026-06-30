@@ -15,6 +15,7 @@ import { ApiTags, ApiBearerAuth, ApiOperation, ApiQuery } from '@nestjs/swagger'
 import { UsersService } from './users.service';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
+import { OptionalJwtAuthGuard } from '../../common/guards/optional-jwt-auth.guard';
 import { CurrentUser } from '../../common/decorators/current-user.decorator';
 import { CurrentUserPayload } from '../../common/decorators/current-user.decorator';
 import { Public } from '../../common/decorators/public.decorator';
@@ -56,12 +57,14 @@ export class UsersController {
   }
 
   @Public()
+  @UseGuards(OptionalJwtAuthGuard)
   @Get(':username')
   @ApiOperation({ summary: 'Get public user profile' })
   async getProfile(
     @Param('username') username: string,
+    @CurrentUser('id') currentUserId?: string,
   ) {
-    return this.usersService.getPublicProfile(username);
+    return this.usersService.getPublicProfile(username, currentUserId);
   }
 
   @Public()

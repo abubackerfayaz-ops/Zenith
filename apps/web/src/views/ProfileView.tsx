@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { CheckCircle, Eye, Grid3X3, Bookmark, Award } from 'lucide-react';
+import { CheckCircle, Eye, Grid3X3, Bookmark, Award, Settings } from 'lucide-react';
 import FameRing from '../components/FameRing';
 import { useAuth } from '../lib/auth-context';
 import api from '../lib/api';
@@ -9,9 +9,10 @@ import type { Post } from '../lib/types';
 interface ProfileViewProps {
   username?: string | null;
   onViewProfile?: (username: string) => void;
+  onChangeView?: (v: any) => void;
 }
 
-export default function ProfileView({ username, onViewProfile }: ProfileViewProps) {
+export default function ProfileView({ username, onViewProfile, onChangeView }: ProfileViewProps) {
   const { user } = useAuth();
   const [profile, setProfile] = useState<any>(null);
   const [posts, setPosts] = useState<Post[]>([]);
@@ -63,6 +64,14 @@ export default function ProfileView({ username, onViewProfile }: ProfileViewProp
         <div className="absolute inset-0 opacity-50" style={{ background: 'radial-gradient(circle at 25% 50%, #7C3AED 0%, transparent 55%), radial-gradient(circle at 75% 30%, #0891B2 0%, transparent 55%)' }} />
         {profile?.coverImage && (
           <img src={profile.coverImage} className="w-full h-full object-cover opacity-40" />
+        )}
+        {isOwnProfile && (
+          <button
+            onClick={() => onChangeView?.('settings')}
+            className="absolute top-4 right-4 z-10 w-9 h-9 rounded-xl flex items-center justify-center text-white/50 hover:text-white bg-white/10 hover:bg-white/20 transition-all"
+          >
+            <Settings size={16} />
+          </button>
         )}
       </div>
 

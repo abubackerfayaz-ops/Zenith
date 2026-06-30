@@ -1,5 +1,5 @@
 import {
-  Home, Search, Play, Brain, MessageCircle, User, Zap, Share2
+  Home, Search, Play, Brain, MessageCircle, User, Zap, Share2, Bell
 } from 'lucide-react';
 import type { View } from './types';
 
@@ -9,6 +9,7 @@ export const NAV: { id: View; icon: React.ElementType; label: string; badge?: nu
   { id: 'reels',    icon: Play,          label: 'Reels' },
   { id: 'battles',  icon: Zap,           label: 'Battles' },
   { id: 'ai',       icon: Brain,         label: 'AI Studio' },
+  { id: 'notifications', icon: Bell,     label: 'Notifications' },
   { id: 'messages', icon: MessageCircle, label: 'Messages' },
   { id: 'profile',  icon: User,          label: 'Profile' },
   { id: 'cards',    icon: Share2,        label: 'My Cards' },

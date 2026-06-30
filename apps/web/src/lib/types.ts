@@ -1,4 +1,4 @@
-export type View = "landing" | "feed" | "profile" | "reels" | "battles" | "ai" | "messages" | "cards";
+export type View = "landing" | "feed" | "profile" | "reels" | "battles" | "ai" | "messages" | "cards" | "notifications" | "settings";
 
 export interface User {
   id: string;
@@ -31,6 +31,20 @@ export interface Post {
   createdAt: string;
   user: User;
   media: { url: string; type: string }[];
+}
+
+export interface Comment {
+  id: string;
+  text: string;
+  createdAt: string;
+  user: {
+    id: string;
+    username: string;
+    displayName: string;
+    profilePicture?: string;
+    isVerified: boolean;
+  };
+  _count?: { likes: number; replies: number };
 }
 
 export interface PaginatedResponse<T> {

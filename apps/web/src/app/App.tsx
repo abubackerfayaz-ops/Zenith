@@ -16,6 +16,8 @@ const BattlesView = lazy(() => import('../views/BattlesView'));
 const AIView = lazy(() => import('../views/AIView'));
 const MessagesView = lazy(() => import('../views/MessagesView'));
 const SocialCardsView = lazy(() => import('../views/SocialCardsView'));
+const NotificationsView = lazy(() => import('../views/NotificationsView'));
+const SettingsView = lazy(() => import('../views/SettingsView'));
 
 function LoadingFallback() {
   return (
@@ -46,11 +48,13 @@ function MainApp() {
     switch (view) {
       case 'landing': return <LandingView key="landing" onChange={setView} />;
       case 'feed': return <FeedView key="feed" {...shared} />;
-      case 'profile': return <ProfileView key="profile" username={profileUsername} onViewProfile={goToProfile} />;
+      case 'profile': return <ProfileView key="profile" username={profileUsername} onViewProfile={goToProfile} onChangeView={setView} />;
       case 'reels': return <ReelsView key="reels" {...shared} />;
       case 'battles': return <BattlesView key="battles" {...shared} />;
       case 'ai': return <AIView key="ai" {...shared} />;
       case 'messages': return <MessagesView key="messages" {...shared} />;
+      case 'notifications': return <NotificationsView key="notifications" />;
+      case 'settings': return <SettingsView key="settings" onBack={() => setView('profile')} />;
       case 'cards': return <SocialCardsView key="cards" {...shared} />;
       default: return null;
     }

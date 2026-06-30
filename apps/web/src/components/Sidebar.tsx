@@ -1,8 +1,10 @@
+import { useState, useEffect } from 'react';
 import { CheckCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useAuth } from '../lib/auth-context';
 import { NAV } from '../lib/constants';
 import Avatar from './Avatar';
+import api from '../lib/api';
 import type { View } from '../lib/types';
 import { cn } from '../lib/utils';
 
@@ -13,6 +15,23 @@ interface SidebarProps {
 
 export default function Sidebar({ current, onChange }: SidebarProps) {
   const { user, logout } = useAuth();
+  const [unreadCount, setUnreadCount] = useState(0);
+
+  useEffect(() => {
+    async function fetchUnread() {
+      try {
+        const res = await api.get('/notifications/unread-count');
+        setUnreadCount(res.data?.count ?? 0);
+      } catch {}
+    }
+    fetchUnread();
+  }, []);
+
+  const navItems = NAV.map(n => ({
+    ...n,
+    badge: n.id === 'notifications' ? (unreadCount > 0 ? unreadCount : undefined) : n.badge,
+  }));
+
   const initials = user?.displayName?.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase()
     || user?.username?.slice(0, 2).toUpperCase()
     || 'Z';
@@ -35,7 +54,7 @@ export default function Sidebar({ current, onChange }: SidebarProps) {
       </motion.div>
 
       <nav className="flex-1 flex flex-col gap-0.5">
-        {NAV.map(({ id, icon: Icon, label, badge }) => {
+        {navItems.map(({ id, icon: Icon, label, badge }) => {
           const active = current === id;
           return (
             <motion.button

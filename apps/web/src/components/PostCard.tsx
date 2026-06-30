@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import {
-  Heart, MessageCircle, Share2, Bookmark, MoreHorizontal,
-  Flame, CheckCircle,
+  Heart, Share2, Bookmark, MoreHorizontal,
+  CheckCircle,
 } from 'lucide-react';
+import CommentSection from './CommentSection';
 import Avatar from './Avatar';
 import api from '../lib/api';
 import type { Post } from '../lib/types';
@@ -18,6 +19,7 @@ export default function PostCard({ post, delay = 0, onViewProfile }: PostCardPro
   const [liked, setLiked] = useState(false);
   const [saved, setSaved] = useState(false);
   const [likes, setLikes] = useState(post.likesCount);
+  const [commentsCount, setCommentsCount] = useState(post.commentsCount);
 
   const img = post.media?.[0]?.url;
   const initials = (post.user.displayName || post.user.username).slice(0, 2).toUpperCase();
@@ -95,10 +97,7 @@ export default function PostCard({ post, delay = 0, onViewProfile }: PostCardPro
           />
           <span className="text-white/50 text-xs">{likes}</span>
         </motion.button>
-        <button className="flex items-center gap-1.5 text-sm">
-          <MessageCircle size={19} className="text-white/45" />
-          <span className="text-white/50 text-xs">{post.commentsCount}</span>
-        </button>
+        <CommentSection postId={post.id} count={commentsCount} onCountChange={d => setCommentsCount(c => c + d)} />
         <button className="flex items-center gap-1.5 text-sm">
           <Share2 size={19} className="text-white/45" />
           <span className="text-white/50 text-xs">Share</span>

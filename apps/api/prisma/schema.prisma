@@ -82,6 +82,7 @@ model User {
   subscriptions      Subscription[]    @relation("SubscriberUser")
   sentTips           Tip[]             @relation("SentTips")
   receivedTips       Tip[]             @relation("ReceivedTips")
+  pointTransactions  PointTransaction[]
 }
 
 model Follow {

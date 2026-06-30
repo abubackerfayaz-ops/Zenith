@@ -6,7 +6,7 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
   private readonly logger = new Logger(PrismaService.name);
 
   constructor() {
-    const url = 'postgresql://postgres:LsxJnenRnJSTitpD@db.ymjbeyzjvvogskssywsp.supabase.co:5432/postgres';
+    const url = 'postgresql://postgres.ymjbeyzjvvogskssywsp:LsxJnenRnJSTitpD@aws-1-ap-southeast-1.pooler.supabase.com:6543/postgres?pgbouncer=true';
     super({
       datasources: { db: { url } },
       log: [

@@ -34,9 +34,9 @@ export class SearchService {
       this.prisma.user.findMany({
         where: {
           OR: [
-            { username: { contains: query.q } },
-            { displayName: { contains: query.q } },
-            { bio: { contains: query.q } },
+            { username: { contains: query.q, mode: 'insensitive' } },
+            { displayName: { contains: query.q, mode: 'insensitive' } },
+            { bio: { contains: query.q, mode: 'insensitive' } },
           ],
           isBanned: false,
         },

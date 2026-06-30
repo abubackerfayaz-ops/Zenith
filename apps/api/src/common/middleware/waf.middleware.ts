@@ -13,7 +13,7 @@ const SQL_INJECTION_PATTERNS = [
   /(\bINFORMATION_SCHEMA\b)/i,
   /(\bpg_catalog\b)/i,
   /(\bSELECT\b.*\bFROM\b.*\bWHERE\b)/i,
-  /%27|\"|\'\s*(OR|AND|UNION|SELECT|INSERT|UPDATE|DELETE|DROP|ALTER|EXEC|CREATE)/i,
+  /%27|(\"|\')\s*(OR|AND|UNION|SELECT|INSERT|UPDATE|DELETE|DROP|ALTER|EXEC|CREATE)/i,
 ];
 
 const XSS_PATTERNS = [
@@ -78,8 +78,8 @@ export class WafMiddleware implements NestMiddleware {
     if (skipPaths.some(p => path.includes(p))) return next();
 
     const bodyStr = req.body ? stringify(req.body) : '';
-    const queryStr = JSON.stringify(req.query);
-    const paramsStr = JSON.stringify(req.params);
+    const queryStr = req.query ? stringify(req.query) : '';
+    const paramsStr = req.params ? stringify(req.params) : '';
     const combined = `${bodyStr} ${queryStr} ${paramsStr}`;
 
     if (matchesAny(combined, SQL_INJECTION_PATTERNS)) {

@@ -6,7 +6,12 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
   private readonly logger = new Logger(PrismaService.name);
 
   constructor() {
+    const envUrl = process.env.DATABASE_URL || '';
+    const url = envUrl.startsWith('postgresql://') || envUrl.startsWith('postgres://')
+      ? envUrl
+      : 'postgresql://postgres:U46Zzl0JoE9h0FPO@db.ymjbeyzjvvogskssywsp.supabase.co:6543/postgres?pgbouncer=true';
     super({
+      datasources: { db: { url } },
       log: [
         { emit: 'event', level: 'query' },
         { emit: 'stdout', level: 'info' },

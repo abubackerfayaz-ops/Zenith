@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "start": "cd apps/api && node dist/main",
+    "build": "cd apps/api && npm install && npx prisma generate && npm run build",
     "start-api": "cd apps/api && npm run start",
     "start-web": "cd apps/web && npm run start",
     "start-socket": "cd apps/socket && npm run start"

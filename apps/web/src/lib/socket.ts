@@ -2,7 +2,8 @@ import { useEffect, useRef, useCallback } from 'react';
 import { io, Socket } from 'socket.io-client';
 import { useAuth } from './auth-context';
 
-const SOCKET_URL = 'http://localhost:4345';
+const API_URL = import.meta.env.VITE_API_URL || '';
+const SOCKET_URL = API_URL ? API_URL.replace('/api/v1', '') : 'http://localhost:4345';
 
 export function useNotifications() {
   const { user } = useAuth();

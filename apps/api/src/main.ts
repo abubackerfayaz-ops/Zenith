@@ -64,6 +64,8 @@ async function bootstrap() {
   app.use(hpp());
 
   app.use((req, res, next) => {
+    const path = req.originalUrl || req.url || '';
+    if (path.includes('/upload/')) return next();
     const contentLength = parseInt(req.headers['content-length'] || '0', 10);
     if (contentLength > 1_048_576) {
       return res.status(413).json({
